@@ -1,17 +1,54 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import { Component } from 'react';
+import { createRoot } from 'react-dom/client';
+import TaskList from './components/task-list/task-list';
+import NewTaskForm from './components/new-task-form/new-task-form';
+import Footer from './components/footer/footer';
+import '../src/index.css'
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-);
+export default class App extends Component {
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+  state = {
+    todos : [
+          { label: 'Eating', id: 1},
+          { label: 'Srating', id: 2}
+    ]
+  }
+
+  deleteItem = (id) => {
+    this.setState(({todos}) => {
+      const idx = todos.findIndex((el) => el.id === id)
+
+
+      const newArr = [
+        ...todos.slice(0,idx), ...todos.slice(idx+1)
+      ]
+
+      return {
+        todos: newArr
+      }
+    })
+  }
+
+  render() {
+    return (
+      <section className="todoapp">
+        <header className="header">
+          <h1>todos</h1>
+          <NewTaskForm />  
+        </header>
+        <section className="main">
+          <TaskList todos = {this.state.todos}
+          onDeleted={this.deleteItem}/>
+          <Footer />
+        </section>
+      </section>
+    )
+  }
+ 
+}
+
+const container = document.querySelector('body');
+const body = createRoot(container)
+
+body.render(<App />)
+ 
