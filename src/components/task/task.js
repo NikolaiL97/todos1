@@ -2,23 +2,10 @@ import { Component } from 'react'
 import './task.css'
 
 export default class Task extends Component {
-    state = {
-        scale: false,
-        completed: false
-    }
-
-    onLiClick = () => {
-        this.setState(({completed}) => {
-            return {
-                completed: !completed
-            }
-            
-        })
-     }
 
     render() {
-        const {label, onDeleted, id} = this.props
-        const {completed} = this.state;
+        const {label, onDeleted, onCompleted, completed} = this.props
+
         
         const InputChecked = () =>{
             return <input className="toggle" type="checkbox" checked readOnly/> 
@@ -41,10 +28,8 @@ export default class Task extends Component {
 
         }
 
-
-
     return (
-        <li  onClick={this.onLiClick} className={classNames}>
+        <li  onClick={onCompleted} className={classNames}>
         <div className="view">
             <InputCheck />
             {/* <input className="toggle" type="checkbox" checked/> */}
