@@ -7,11 +7,11 @@ export default class Task extends Component {
         const {label, onDeleted, onCompleted, completed} = this.props
 
         
-        const InputChecked = () =>{
-            return <input className="toggle" type="checkbox" checked readOnly/> 
+        const InputChecked = () => {
+            return (<input className="toggle" type="checkbox" defaultChecked />)
         } 
-        const InputNoChecked = () =>{
-            <input className="toggle" type="checkbox" readOnly/> 
+        const InputNoChecked = () => {
+            return (<input className="toggle" type="checkbox" />)
         } 
 
         let InputCheck = () => {

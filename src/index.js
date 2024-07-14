@@ -15,7 +15,6 @@ export default class App extends Component {
 
 
   onLabelChange = (e) => {
-    console.log(e.target.value)
     this.setState({
         label: e.target.value
     })
@@ -24,6 +23,9 @@ export default class App extends Component {
   onSubmit = (e) => {
     e.preventDefault()
     this.addItem(this.state.label)
+    this.setState({
+      label: ''
+    })
   }
 
 
@@ -46,14 +48,14 @@ export default class App extends Component {
       }
     })
 
-    this.setState({
-      label: ''
-    })
+
   }
 
   deleteItem = (id) => {
+    console.log(id)
     this.setState(({todos}) => {
       const idx = todos.findIndex((el) => el.id === id);
+      console.log(idx)
 
       const newArr = [
         ...todos.slice(0,idx),
@@ -70,7 +72,7 @@ export default class App extends Component {
     this.setState(({todos}) => {
       const idx = todos.findIndex((el) => el.id === id);
       const oldTask = todos[idx];
-      const newTask = {...oldTask, completed: !oldTask.completed}
+      const newTask = {...oldTask, completed: !oldTask.completed};
       const newArr = [
       ...todos.slice(0,idx), newTask, ...todos.slice(idx+1)
     ]

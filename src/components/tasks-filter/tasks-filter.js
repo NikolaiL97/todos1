@@ -4,17 +4,9 @@ import { Component } from 'react'
 
 export default class TasksFilter extends Component {
 
-  constructor() {
-    super()
-    this.state = {
-      selected: false
-    }
-    this.onLabelClick = this.onLabelClick.bind(this)
-  }
-
-
-
-
+state = {
+  selected: false
+}
 
 onLabelClick = () => {
       this.setState(({selected}) => {

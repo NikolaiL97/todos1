@@ -9,12 +9,12 @@ export default class TaskList extends Component {
 
 
     const elems = todos.map((item) => {
-      const {completed, id,  ...itemProps} = item;
+      const { id,  ...itemProps} = item;
       return (
         
           <Task {... itemProps}
           key={id}
-          completed={completed}
+
           onDeleted ={() => onDeleted(id)}
           onCompleted={() => onCompleted(id)}
           />
