@@ -4,21 +4,9 @@ import { Component } from 'react'
 
 export default class TasksFilter extends Component {
 
-state = {
-  selected: false
-}
-
-onLabelClick = () => {
-      this.setState(({selected}) => {
-        return {selected: !selected}
-      })
-    }
- 
-
   render() {
 
-    const {selected} = this.state;
-
+    const { selected, onFilterClick, label} = this.props;
 
     let classNames = ''
     if (selected) {
@@ -26,20 +14,22 @@ onLabelClick = () => {
     }
 
     return (
-      <ul className="filters">
-        <li>
-          <button className={classNames} onClick={this.onLabelClick}>All</button>
-        </li>
-        <li>
-          <button className={classNames} onClick={this.onLabelClick}>Active</button>
-        </li>
-        <li>
-          <button className={classNames} onClick={this.onLabelClick}>Completed</button>
-        </li>
-      </ul>
+      <li>
+        <button className={classNames} onClick={onFilterClick}>{label}</button>
+      </li>
     )
   }
 }
 
+
+{/* <li>
+<button className={classNames} onClick={this.onLabelClick}>All</button>
+</li>
+<li>
+<button className={classNames} onClick={this.onLabelClick}>Active</button>
+</li>
+<li>
+<button className={classNames} onClick={this.onLabelClick}>Completed</button>
+</li> */}
 
 

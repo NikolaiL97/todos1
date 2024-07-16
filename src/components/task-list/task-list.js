@@ -5,20 +5,19 @@ import './task-list.css'
 export default class TaskList extends Component {
 
   render() {
-    const { todos, onDeleted, onCompleted } = this.props
-
+    const { todos, onDeleted, onCompleted, oldId} = this.props
+    console.log(`task-list ${oldId}`)
 
     const elems = todos.map((item) => {
       const { id,  ...itemProps} = item;
       return (
         
-          <Task {... itemProps}
+          <Task {...itemProps}
           key={id}
-
           onDeleted ={() => onDeleted(id)}
           onCompleted={() => onCompleted(id)}
+          oldId={oldId}
           />
-
       )
     })
   
