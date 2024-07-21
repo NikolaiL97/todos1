@@ -1,8 +1,22 @@
-import { Component } from "react"
-import TasksFilter from "../tasks-filter/tasks-filter"
-import './footer.css'
+import { Component } from "react";
+import TasksFilter from "../tasks-filter/tasks-filter";
+import './footer.css';
+import propTypes from 'prop-types';
 
 export default class Footer extends Component{
+  static defaultProps = {
+    todosCount: 0,
+    footerFilter: [],
+    onFilterClick: () => {},
+    onAllDeleted: () => {}
+  }
+  
+  static propTypes = {
+    todosCount: propTypes.number,
+    footerFilter: propTypes.arrayOf(propTypes.object),
+    onFilterClick: propTypes.func,
+    onAllDeleted: propTypes.func
+  }
  
   render() {
 

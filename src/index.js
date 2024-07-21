@@ -1,4 +1,5 @@
 import { Component } from 'react';
+import { formatDistanceToNow, formatDistanceToNowStrict } from 'date-fns'
 import { createRoot } from 'react-dom/client';
 import TaskList from './components/task-list/task-list';
 import NewTaskForm from './components/new-task-form/new-task-form';
@@ -33,15 +34,13 @@ export default class App extends Component {
     })
   }
 
-
-
   addItem = (text) => {
     const newItem = {
       label: text,
       completed: false,
-      id: this.maxId++
+      id: this.maxId++,
+      addDate : new Date()
     }
-
     this.setState(({ todos }) => {
 
       const newArr = [
@@ -52,9 +51,13 @@ export default class App extends Component {
         todos: newArr
       }
     })
-
-
   }
+
+  addTime = (id) => {
+    const idx = this.state.todos.findIndex((el) => el.id === id) 
+    const time = this.state.todos[idx].addDate
+    return time
+  } 
 
   deleteItem = (id) => {
 
@@ -133,10 +136,12 @@ export default class App extends Component {
     })
   }
   render() {
+    
     const oldId = this.state.oldSeclected
     const val = this.state.label
     const completedCount = this.state.todos.filter((el) => el.completed).length;
     const todosCount = this.state.todos.length - completedCount;
+
     return (
       <section className="todoapp">
         <header className="header">
