@@ -99,7 +99,6 @@ export default class App extends Component {
 					newFil,
 					...footerFilter.slice(idxOld + 1),
 				];
-
 				return {
 					footerFilter: newArr,
 				};
