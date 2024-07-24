@@ -99,9 +99,8 @@ export default class App extends Component {
 					newFil,
 					...footerFilter.slice(idxOld + 1),
 				];
-				return {
-					footerFilter: newArr,
-				};
+				footerFilter = newArr;
+				return footerFilter;
 			};
 
 			if (oldSeclected) {

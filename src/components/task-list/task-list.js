@@ -24,7 +24,7 @@ export default class TaskList extends Component {
 		} = this.props;
 
 		const elems = todos.map((item) => {
-			const { id, addDate, ...itemProps } = item;
+			const { id, ...itemProps } = item;
 			return (
 				<Task {...itemProps}
 					key={id}

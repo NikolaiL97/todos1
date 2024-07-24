@@ -10,7 +10,7 @@ export default class Task extends Component {
 		onCompleted: () => {},
 		completed: false,
 		oldId: 1,
-		addData: new Date(),
+		addDate: new Date(),
 	};
 
 	static propTypes = {
@@ -24,14 +24,14 @@ export default class Task extends Component {
 
 	render() {
 		const {
-			label, onDeleted, onCompleted, completed, oldId, addData,
+			label, onDeleted, onCompleted, completed, oldId, addDate,
 		} = this.props;
 
 		let checkedIn = false;
 		let classNames = '';
 		let styleLi = { display: 'block' };
 
-		const sI = formatDistanceToNow(addData, { includeSeconds: true });
+		const sI = formatDistanceToNow(addDate, { includeSeconds: true });
 
 		const changeFn = (e) => {
 			if (e.target.checked) {
