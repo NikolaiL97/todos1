@@ -2,6 +2,7 @@ import { Component } from 'react';
 import './task.css';
 import { formatDistanceToNow } from 'date-fns';
 import propTypes from 'prop-types';
+import Timer from '../timer/timer';
 
 export default class Task extends Component {
 	static defaultProps = {
@@ -28,7 +29,7 @@ export default class Task extends Component {
 		} = this.props;
 
 		let checkedIn = false;
-		let classNames = '';
+		let classNames = 'description';
 		let styleLi = { display: 'block' };
 
 		const sI = formatDistanceToNow(addDate, { includeSeconds: true });
@@ -55,12 +56,13 @@ export default class Task extends Component {
 		}
 
 		return (
-			<li className={classNames} style={styleLi}>
+			<li style={styleLi}>
 				<div className="view">
 					<input onChange={changeFn} className="toggle" type="checkbox" checked={checkedIn}/>
-					<label onClick={onCompleted}>
-						<span className='description' >{label}</span>
-						<span className="created">Created {sI} ago</span>
+					<label >
+						<span className={classNames} onClick={onCompleted}>{label}</span>
+						<Timer />
+						<span className="description">Created {sI} ago</span>
 					</label >
 					<button className="icon icon-edit"></button>
 					<button
