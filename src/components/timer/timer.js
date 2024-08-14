@@ -1,53 +1,13 @@
 import React, { Component } from 'react';
 
 export default class Timer extends Component {
-	state = {
-		timerValue: null,
-		timer: null,
-		start: false,
-		pause: false,
-	};
-
-	startTimer = () => {
-		if (!this.state.start) {
-			const start = true;
-			const pause = false;
-			this.setState({
-				start,
-				pause,
-			});
-			clearInterval(this.state.timer);
-			const timer = setInterval(() => {
-				if (this.state.pause) {
-					const newTime = this.state.timerValue;
-					return (this.setState({
-						start: false,
-						timerValue: newTime,
-						timer,
-					}));
-				}
-				const newTime = this.state.timerValue + 1;
-				return (this.setState({
-					timerValue: newTime,
-					timer,
-				}));
-			}, 1000);
-		}
-	};
-
-	pauseTimer = () => {
-		const pause = true;
-		return (this.setState({
-			pause,
-		}));
-	};
-
 	render() {
+		const { startTimer, pauseTimer, timerValue } = this.props;
 		return (
 			<TimerButton
-				timerValue={this.state.timerValue}
-				startTimer={this.startTimer}
-				pauseTimer={this.pauseTimer}/>
+				timerValue={timerValue}
+				startTimer={startTimer}
+				pauseTimer={pauseTimer}/>
 		);
 	}
 }

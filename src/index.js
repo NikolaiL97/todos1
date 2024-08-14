@@ -18,6 +18,44 @@ export default class App extends Component {
 			{ label: 'Completed', id: 3, selected: false },
 		],
 		oldSeclected: 0,
+		timerValue: null,
+		timer: null,
+		start: false,
+		pause: false,
+	};
+
+	startTimer = (id) => {
+		if (!this.state.start) {
+			const start = true;
+			const pause = false;
+			this.setState({
+				start,
+				pause,
+			});
+			clearInterval(this.state.timer);
+			const timer = setInterval(() => {
+				if (this.state.pause) {
+					const newTime = this.state.timerValue;
+					return (this.setState({
+						start: false,
+						timerValue: newTime,
+						timer,
+					}));
+				}
+				const newTime = this.state.timerValue + 1;
+				return (this.setState({
+					timerValue: newTime,
+					timer,
+				}));
+			}, 1000);
+		}
+	};
+
+	pauseTimer = () => {
+		const pause = true;
+		return (this.setState({
+			pause,
+		}));
 	};
 
 	onLabelChange = (e) => {
@@ -152,7 +190,10 @@ export default class App extends Component {
 					<TaskList todos = {this.state.todos}
 						onDeleted={this.deleteItem}
 						onCompleted={this.onCompleted}
-						oldId={oldId}/>
+						oldId={oldId}
+						startTimer={this.startTimer}
+						pauseTimer={this.pauseTimer}
+						timerValue={this.state.timerValue}/>
 					<Footer
 						todosCount = {todosCount}
 						footerFilter={this.state.footerFilter}
