@@ -10,37 +10,37 @@ export default class Timer extends Component {
 
 	componentDidUpdate(prevProps, prevState) {
 		if (prevProps.completed !== this.props.completed && this.props.completed) {
-		  this.pauseTimer();
+			this.pauseTimer();
 		}
-	  }
+	}
 
-		startTimer = () => {
-			if (!this.state.start && !this.props.completed) {
-				if (!this.state.start) {
-					const start = true;
-					const pause = false;
-					this.setState({
-						start,
-						pause,
-					});
-					clearInterval(this.state.timer);
-					const timer = setInterval(() => {
-						if (this.state.pause) {
-							const newTime = this.state.timerValue;
-							return (this.setState({
-								start: false,
-								timerValue: newTime,
-								timer,
-							}));
-						}
-						const newTime = this.state.timerValue + 1;
+	startTimer = () => {
+		if (!this.state.start && !this.props.completed) {
+			if (!this.state.start) {
+				const start = true;
+				const pause = false;
+				this.setState({
+					start,
+					pause,
+				});
+				clearInterval(this.state.timer);
+				const timer = setInterval(() => {
+					if (this.state.pause) {
+						const newTime = this.state.timerValue;
 						return (this.setState({
+							start: false,
 							timerValue: newTime,
 							timer,
 						}));
-					}, 1000);
-				}
-			}		 
+					}
+					const newTime = this.state.timerValue + 1;
+					return (this.setState({
+						timerValue: newTime,
+						timer,
+					}));
+				}, 1000);
+			}
+		}
 	};
 
 	pauseTimer = () => {
