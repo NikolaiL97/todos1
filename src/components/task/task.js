@@ -25,7 +25,7 @@ export default class Task extends Component {
 
 	render() {
 		const {
-			label, onDeleted, onCompleted, completed, oldId, addDate, startTimer, pauseTimer, timerValue,
+			label, onDeleted, onCompleted, completed, oldId, addDate,
 		} = this.props;
 
 		let checkedIn = false;
@@ -36,7 +36,6 @@ export default class Task extends Component {
 
 		const changeFn = (e) => {
 			if (e.target.checked) {
-				pauseTimer();
 				onCompleted();
 			} else {
 				onCompleted();
@@ -62,11 +61,7 @@ export default class Task extends Component {
 					<input onChange={changeFn} className="toggle" type="checkbox" checked={checkedIn}/>
 					<label >
 						<span className={classNames} onClick={onCompleted}>{label}</span>
-						<Timer
-							startTimer={startTimer}
-							pauseTimer={pauseTimer}
-							timerValue={timerValue}
-						/>
+						<Timer completed={completed}/>
 						<span className="description">Created {sI} ago</span>
 					</label >
 					<button className="icon icon-edit"></button>

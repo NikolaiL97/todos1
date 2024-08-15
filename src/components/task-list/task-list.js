@@ -20,7 +20,7 @@ export default class TaskList extends Component {
 
 	render() {
 		const {
-			todos, onDeleted, onCompleted, oldId, startTimer, pauseTimer, timerValue,
+			todos, onDeleted, onCompleted, oldId,
 		} = this.props;
 
 		const elems = todos.map((item) => {
@@ -31,9 +31,6 @@ export default class TaskList extends Component {
 					onDeleted ={() => onDeleted(id)}
 					onCompleted={() => onCompleted(id)}
 					oldId={oldId}
-					startTimer={() => startTimer(id)}
-					pauseTimer={pauseTimer}
-					timerValue={timerValue}
 				/>
 			);
 		});
