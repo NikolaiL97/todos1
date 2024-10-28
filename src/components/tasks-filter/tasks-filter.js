@@ -1,32 +1,22 @@
+import { useContext } from 'react';
 import './tasks-filter.css';
-import { Component } from 'react';
-import propTypes from 'prop-types';
+// eslint-disable-next-line import/no-cycle
+import { TasksFilterContext } from '../footer/footer';
 
-export default class TasksFilter extends Component {
-	static defaultProps = {
-		selected: false,
-		onFilterClick: () => {},
-		label: 'undefined',
-	};
-
-	static propTypes = {
-		selected: propTypes.bool,
-		onFilterClick: propTypes.func,
-		label: propTypes.node,
-	};
-
-	render() {
-		const { selected, onFilterClick, label } = this.props;
-
-		let classNames = '';
-		if (selected) {
-			classNames += ' selected';
-		}
-
-		return (
-			<li>
-				<button className={classNames} onClick={onFilterClick}>{label}</button>
-			</li>
-		);
+const TasksFilter = () => {
+	const footerValue = useContext(TasksFilterContext);
+	let classNames = '';
+	if (footerValue.item.selected) {
+		classNames += ' selected';
 	}
-}
+
+	return (
+		<li>
+			<button className={classNames} onClick={footerValue.onFilterClick}>
+				{footerValue.item.label}
+			</button>
+		</li>
+	);
+};
+
+export default TasksFilter;

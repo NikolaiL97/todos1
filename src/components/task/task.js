@@ -1,76 +1,72 @@
-import { Component } from 'react';
+import { useContext } from 'react';
 import './task.css';
 import { formatDistanceToNow } from 'date-fns';
-import propTypes from 'prop-types';
+// eslint-disable-next-line import/no-cycle
 import Timer from '../timer/timer';
+// eslint-disable-next-line import/no-cycle
+import { TaskListContext } from '../..';
+import { TaskContext } from '../task-list/task-list';
 
-export default class Task extends Component {
-	static defaultProps = {
-		label: 'Undefined',
-		onDeleted: () => {},
-		onCompleted: () => {},
-		completed: false,
-		oldId: 1,
-		addDate: new Date(),
-	};
+const Task = () => {
+	const value = useContext(TaskListContext);
+	const item = useContext(TaskContext);
 
-	static propTypes = {
-		label: propTypes.node,
-		onDeleted: propTypes.func,
-		onCompleted: propTypes.func,
-		completed: propTypes.bool,
-		oldId: propTypes.number,
-		addData: propTypes.object,
-	};
+	// const {
+	// 	label, onDeleted, onCompleted, completed, oldId, addDate,
+	// } = this.props;
 
-	render() {
-		const {
-			label, onDeleted, onCompleted, completed, oldId, addDate,
-		} = this.props;
+	let checkedIn = false;
+	let classNames = 'description';
+	let styleLi = { display: 'block' };
+	let sI = 0;
 
-		let checkedIn = false;
-		let classNames = 'description';
-		let styleLi = { display: 'block' };
-
-		const sI = formatDistanceToNow(addDate, { includeSeconds: true });
-
-		const changeFn = (e) => {
-			if (e.target.checked) {
-				onCompleted();
-			} else {
-				onCompleted();
-			}
-		};
-
-		if (oldId === 1) {
-			styleLi = { display: 'block' };
-		} else if (oldId === 2 && completed) {
-			styleLi = { display: 'none' };
-		} else if (oldId === 3 && !completed) {
-			styleLi = { display: 'none' };
-		}
-
-		if (completed) {
-			classNames += ' completed';
-			checkedIn = true;
-		}
-
-		return (
-			<li style={styleLi}>
-				<div className="view">
-					<input onChange={changeFn} className="toggle" type="checkbox" checked={checkedIn}/>
-					<label >
-						<span className={classNames} onClick={onCompleted}>{label}</span>
-						<Timer completed={completed}/>
-						<span className="description">Created {sI} ago</span>
-					</label >
-					<button className="icon icon-edit"></button>
-					<button
-						className="icon icon-destroy"
-						onClick={onDeleted}
-					></button>
-				</div>
-			</li>
-		);
+	function del() {
+		value.deleteItem(item.id);
 	}
-}
+
+	function com() {
+		value.onCompleted(item.id);
+	}
+	sI = formatDistanceToNow(item.addDate, { includeSeconds: true });
+
+	function changeFn(e) {
+		if (e.target.checked) {
+			value.onCompleted(item.id);
+		} else {
+			value.onCompleted(item.id);
+		}
+	}
+
+	if (value.oldId === 1) {
+		styleLi = { display: 'block' };
+	} else if (value.oldId === 2 && item.completed) {
+		styleLi = { display: 'none' };
+	} else if (value.oldId === 3 && !item.completed) {
+		styleLi = { display: 'none' };
+	}
+
+	if (item.completed) {
+		classNames += ' completed';
+		checkedIn = true;
+	}
+
+	return (
+		<li style={styleLi}>
+			<div className="view">
+				<input onChange={changeFn} className="toggle" type="checkbox" checked={checkedIn}/>
+				<label >
+					<span className={classNames} onClick={com}>{item.label}</span>
+					<Timer completed={item.completed}/>
+					<span className="description">Created {sI} ago</span>
+				</label >
+				<button className="icon icon-edit"></button>
+				<button
+					className="icon icon-destroy"
+					onClick={del}
+				></button>
+			</div>
+		</li>
+	);
+};
+
+export default Task;

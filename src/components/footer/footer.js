@@ -1,43 +1,40 @@
-import { Component } from 'react';
+import { createContext, useContext, useMemo } from 'react';
 import './footer.css';
-import propTypes from 'prop-types';
+// eslint-disable-next-line import/no-cycle
 import TasksFilter from '../tasks-filter/tasks-filter';
+// eslint-disable-next-line import/no-cycle
+import { FooterContext } from '../..';
 
-export default class Footer extends Component {
-	static defaultProps = {
-		todosCount: 0,
-		footerFilter: [],
-		onFilterClick: () => {},
-		onAllDeleted: () => {},
-	};
+export const TasksFilterContext = createContext();
 
-	static propTypes = {
-		todosCount: propTypes.number,
-		footerFilter: propTypes.arrayOf(propTypes.object),
-		onFilterClick: propTypes.func,
-		onAllDeleted: propTypes.func,
-	};
+const Footer = () => {
+	const value = useContext(FooterContext);
+	const elem = value.footerFilter.map((item) => {
+		const { id } = item;
+		const onFilterClick = () => {
+			value.onFilterClick(id);
+		};
+		const contextTasksFilter = useMemo(() => ({
+			item,
+			onFilterClick,
+		}), [item, onFilterClick]);
 
-	render() {
-		const {
-			todosCount, footerFilter, onFilterClick, onAllDeleted,
-		} = this.props;
-		const elem = footerFilter.map((item) => {
-			const { id, ...itemProps } = item;
-			return (
-				<TasksFilter {...itemProps}
-					key={id}
-					onFilterClick={() => onFilterClick(id)}/>
-			);
-		});
 		return (
-			<footer className="footer">
-				<span className="todo-count">{todosCount} items left</span>
-				<ul className="filters">
-					{elem}
-				</ul>
-				<button className="clear-completed" onClick={onAllDeleted}>Clear completed</button>
-			</footer>
+			<TasksFilterContext.Provider value={contextTasksFilter} key={id}>
+				<TasksFilter
+				/>
+			</TasksFilterContext.Provider>
 		);
-	}
-}
+	});
+	return (
+		<footer className="footer">
+			<span className="todo-count">{value.todosCount} items left</span>
+			<ul className="filters">
+				{elem}
+			</ul>
+			<button className="clear-completed" onClick={value.onAllDeleted}>Clear completed</button>
+		</footer>
+	);
+};
+
+export default Footer;

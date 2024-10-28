@@ -1,27 +1,16 @@
-import { Component } from 'react';
+import { useContext } from 'react';
+// eslint-disable-next-line import/no-cycle
+import { NewTaskFormContext } from '../..';
 import './new-task-form.css';
-import propTypes from 'prop-types';
 
-export default class NewTaskForm extends Component {
-	static defaultProps = {
-		onLabelChange: () => {},
-		onSubmit: () => {},
-		val: '',
-	};
+const NewTaskForm = () => {
+	const value = useContext(NewTaskFormContext);
 
-	static propTypes = {
-		onLabelChange: propTypes.func,
-		onSubmit: propTypes.func,
-		val: propTypes.string,
-	};
+	return (
+		<form onSubmit={value.onSubmit}>
+			<input className="new-todo" placeholder="What needs to be done?" autoFocus onChange={value.onLabelChange} value={value.label}/>
+		</form>
+	);
+};
 
-	render() {
-		const { onLabelChange, onSubmit, val } = this.props;
-
-		return (
-			<form onSubmit={onSubmit}>
-				<input className="new-todo" placeholder="What needs to be done?" autoFocus onChange={onLabelChange} value={val}/>
-			</form>
-		);
-	}
-}
+export default NewTaskForm;

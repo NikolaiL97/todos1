@@ -1,44 +1,33 @@
-import { Component } from 'react';
-import propTypes from 'prop-types';
+import { createContext, useContext, useMemo } from 'react';
 import './task-list.css';
+// eslint-disable-next-line import/no-cycle
 import Task from '../task/task';
+// eslint-disable-next-line import/no-cycle
+import { TaskListContext } from '../..';
 
-export default class TaskList extends Component {
-	static defaultProps = {
-		todos: [],
-		onDeleted: () => {},
-		onCompleted: () => {},
-		oldId: 1,
-	};
+export const TaskContext = createContext();
 
-	static propTypes = {
-		todos: propTypes.arrayOf(propTypes.object),
-		onDeleted: propTypes.func,
-		onCompleted: propTypes.func,
-		oldId: propTypes.number,
-	};
+const TaskList = () => {
+	const value = useContext(TaskListContext);
+	// const {
+	// 	todos, onDeleted, onCompleted, oldId,
+	// } = this.props;
 
-	render() {
-		const {
-			todos, onDeleted, onCompleted, oldId,
-		} = this.props;
-
-		const elems = todos.map((item) => {
-			const { id, ...itemProps } = item;
-			return (
-				<Task {...itemProps}
-					key={id}
-					onDeleted ={() => onDeleted(id)}
-					onCompleted={() => onCompleted(id)}
-					oldId={oldId}
-				/>
-			);
-		});
-
+	const elems = value.todos.map((item) => {
+		const { id } = item;
 		return (
-			<ul className="todo-list">
-				{elems}
-			</ul>
+			<TaskContext.Provider key={id} value={item}>
+				<Task/>
+			</TaskContext.Provider>
+
 		);
-	}
-}
+	});
+
+	return (
+		<ul className="todo-list">
+			{elems}
+		</ul>
+	);
+};
+
+export default TaskList;
